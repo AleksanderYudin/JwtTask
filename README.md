@@ -55,5 +55,5 @@ http://localhost:8075/admin/users`
 
 `curl -H "Content-Type: application/json"
 -H "Authorization: Bearer_<YOUR_TOKEN>"
---request GET'
+--request GET
 http://localhost:8075/admin/users`
