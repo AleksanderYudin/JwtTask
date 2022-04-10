@@ -1,0 +1,33 @@
+version: "3"
+services:
+  jwttask:
+    image: aleksanderyudin/jwttask
+    ports:
+      - "8075:8075"
+    networks:
+      - jwttask-mysql
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/jwtapp_db?timezone=utc
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+
+      - SPRING_LIQUIBASE_CHANGE-LOG=classpath:db/changelog/master.xml
+      - SPRING_LIQUIBASE_URL=jdbc:mysql://mysqldb:3306/jwtapp_db?servertimezone=utc
+      - SPRING_LIQUIBASE_USER=root
+      - SPRING_LIQUIBASE_PASSWORD=root
+      - JWT_TOKEN_SECRET=someverysecretwordsandsomeverysecretwordselse
+      - JWT_TOKEN_EXPIRED=3600000
+      - SPRING_MAIN_ALLOW-CIRCULAR-REFERENCES=true
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    image: mysql:8
+    networks:
+      - jwttask-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=jwtapp_db
+
+networks:
+  jwttask-mysql:
