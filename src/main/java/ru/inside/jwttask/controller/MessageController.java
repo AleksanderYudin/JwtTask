@@ -34,12 +34,13 @@ public class MessageController {
         String username = jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(req));
         User user = userService.findByUsername(username);
 
-        int condition = messageService.save(messageDto.getMessage(), user);
-        if (condition < 0) {
+        Integer match = messageService.matchMessage(messageDto.getMessage());
+        if (match == null) {
+            messageService.save(messageDto.getMessage(), user);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
 
-        List<Message> messages = messageService.getLastMessages(user.getId(), condition);
+        List<Message> messages = messageService.getLastMessages(user.getId(), match);
         List<MessageDto> messagesDto = MessageDto.fromMessages(messages);
         return new ResponseEntity<>(messagesDto, HttpStatus.OK);
     }

@@ -25,14 +25,29 @@ class MessageServiceImplTest {
     void save() {
         User user = new User();
         String text = "any text";
-        Integer result = messageService.save(text, user);
+        boolean isMessageCreated = messageService.save(text, user);
 
-        assertEquals(result, -1);
+        assertTrue(isMessageCreated);
 
         Message message = new Message();
         message.setUser(user);
         message.setText(text);
 
         Mockito.verify(messageRepository, Mockito.times(1)).save(message);
+    }
+
+    @Test
+    void matchMessage() {
+        String text1 = "history 5";
+        String text2 = "History 5";
+        String text3 = "history   3";
+        String text4 = "history 789";
+        String text5 = "history78";
+
+        assertEquals(messageService.matchMessage(text1), 5);
+        assertNull(messageService.matchMessage(text2));
+        assertEquals(messageService.matchMessage(text3), 3);
+        assertEquals(messageService.matchMessage(text4), 789);
+        assertNull(messageService.matchMessage(text5));
     }
 }

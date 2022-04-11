@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface MessageService {
 
-    Integer save(String text, User user);
+    boolean save(String text, User user);
 
     List<Message> getLastMessages(long user_id, int number);
+
+    Integer matchMessage(String text);
 }
