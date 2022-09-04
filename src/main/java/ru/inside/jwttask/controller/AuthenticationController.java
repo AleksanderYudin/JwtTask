@@ -1,6 +1,12 @@
 package ru.inside.jwttask.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,22 +25,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/login")
+@RequestMapping(value = "v1/api/login")
+@RequiredArgsConstructor
+@Tag(name = "authentication", description = "The authentication API")
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
 
-    @Autowired
-    public AuthenticationController(AuthenticationManager authenticationManager,
-                                          JwtTokenProvider jwtTokenProvider,
-                                          UserService userService) {
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.userService = userService;
-    }
-
+    @Operation(summary = "Authentication", tags = "authentication")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Authentication successful",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(allowableValues = {"username", "token"}))
+                    }),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Incorrect username or password")
+    })
     @PostMapping
     public ResponseEntity login(@RequestBody AuthenticationRequestDto requestDto) {
 
