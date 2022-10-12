@@ -39,13 +39,15 @@ message:    "history 10"
 Составить запросы (curl) через терминал для проверки работоспособности программы (приложить файл с запросами).
 </details>
 
-Prerequisites:
+Prerequisites: 
 
 - Java 8+
 - Maven
 - MySql
 - Docker (for containerising)
 - Docker compose (for containerising)
+
+Technologies: Spring Framework (Boot Starter Web, Data JPA, Security), JWT, MySQL, Liquibase.
 ______________
 
 In order to run application you need to execute following command `docker-compose up -d`
