@@ -1,7 +1,6 @@
-### **'Inside' Junior dev test task**
 
 _____________
-<details><summary>Task</summary>
+<details><summary>Task (click)</summary>
 В БД создать пару sql табличек со связями (foreign keys)
 
 Сделать HTTP POST эндпоинт, который получает данные в json вида:
